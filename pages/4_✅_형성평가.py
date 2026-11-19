@@ -15,7 +15,7 @@ if not student_id:
     st.stop()
 
 conn = st.connection("gsheets", type = GSheetsConnection)
-quiz = conn.read(worksheet = 1001, ttl = 60)
+quiz = conn.read(worksheet = '문항', ttl = 60)
 
 # 학생이 푼 답이 저장될 곳
 answers = {}
@@ -55,7 +55,7 @@ if submitted:
     response_columns = [f"문제{n} 응답" for n in range(1, len(quiz) + 1)]
     columns = ["제출 시각", "학번", "점수", *response_columns]
 
-    log = conn.read(worksheet=1002, ttl=0).dropna(how="all")
+    log = conn.read(worksheet='형성평가응답', ttl=0).dropna(how="all")
     # 기존 시트의 열 이름을 현재 형식에 맞추고, 문항 수만큼 응답 열을 확보합니다.
     log = log.iloc[:, :len(columns)].copy()
     for _ in range(len(columns) - len(log.columns)):
