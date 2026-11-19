@@ -29,7 +29,7 @@ if not student_id:
 
 st.subheader("서술형 문항 입력을 시작합니다. ")
 conn = st.connection("gsheets", type=GSheetsConnection)
-df = conn.read(worksheet="측정자료", usecols=[0, 1, 2], ttl=60).dropna(how="all")
+df = conn.read(worksheet=655941621, usecols=[0, 1, 2], ttl=60).dropna(how="all")
 fig, ax = plt.subplots(figsize=(8, 3))
 sns.boxplot(data=df, x="통학 시간(분)", y="반", whis=(0, 100), ax=ax)
 st.pyplot(fig)
@@ -71,9 +71,9 @@ if submitted and subj:
 
     # 응답을 구글시트에 저장하기
     now = datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y-%m-%d %H:%M")
-    log = conn.read(worksheet = "서술형응답", usecols = [0,1,2,3], ttl=0)
+    log = conn.read(worksheet = 1003, usecols = [0,1,2,3], ttl=0)
     new_row = pd.DataFrame([[now, student_id, subj, feedback]], columns = log.columns)
-    conn.update(worksheet = "서술형응답", data = pd.concat([log, new_row], ignore_index = True))
+    conn.update(worksheet = 1003, data = pd.concat([log, new_row], ignore_index = True))
     st.caption("답안이 저장되었습니니다. ")
 elif submitted:
     st.warning("답안을 작성해주세요.")
